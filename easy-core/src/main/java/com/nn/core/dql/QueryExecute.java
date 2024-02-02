@@ -2,6 +2,7 @@ package com.nn.core.dql;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import com.nn.core.BaseEntity;
+import com.nn.exception.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +29,16 @@ public class QueryExecute<E> {
         this.baseEntity = baseEntity;
     }
 
+
+    /**
+     * 查询多行
+     * @return
+     */
     public List<E> list(){
         List<E> list = new ArrayList<>();
+        Class<?> entity = this.baseEntity.getTable();
         try (ResultSet rs = getResultSet()){
-            Class<?> entity = this.baseEntity.getTable();
             while (rs.next()){
-                int columnCount = rs.getMetaData().getColumnCount();
                 E objectEntity = (E) entity.getDeclaredConstructor().newInstance();
                 //构造实体
                 Field[] fields = entity.getDeclaredFields();
@@ -56,11 +61,23 @@ public class QueryExecute<E> {
                 }
                 list.add(objectEntity);
             }
-            return list;
         } catch (SQLException | IllegalAccessException | InstantiationException | NoSuchMethodException |
                  InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        return list;
+    }
+
+    /**
+     * 查询一行
+     * @return
+     */
+    public E one(){
+        List<E> list = list();
+        if (list.size()>1){
+            throw new QueryException("The query result expectation is: 1 row, but the result is: %s row".formatted(list.size()));
+        }
+        return list.get(0);
     }
 
 
