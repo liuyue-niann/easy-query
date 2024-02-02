@@ -29,9 +29,6 @@ public class QueryWrapper<E> implements Wrapper<E> {
         this.baseEntity.fieldValue.add(val);
         return new QueryWrapper<E>(this.baseEntity);
     }
-
-
-
     @Override
     public QueryWrapper<E> and(){
         this.baseEntity.appendSql("and");
