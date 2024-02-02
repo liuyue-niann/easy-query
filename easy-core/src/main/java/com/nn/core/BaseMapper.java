@@ -16,7 +16,7 @@ public class BaseMapper<E> {
 
     private final QueryWrapper<E> queryWrapper;
 
-    public BaseMapper(){
+    public BaseMapper() {
         this.baseEntity = new BaseEntity();
         setTable();
         setId();
@@ -28,10 +28,10 @@ public class BaseMapper<E> {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             Id idAnno = field.getAnnotation(Id.class);
-            if (idAnno!=null){
-                if (idAnno.value().isEmpty() || idAnno.value().isBlank()){
+            if (idAnno != null) {
+                if (idAnno.value().isEmpty() || idAnno.value().isBlank()) {
                     this.baseEntity.setTableId(field.getName());
-                }else {
+                } else {
                     this.baseEntity.setTableId(idAnno.value());
                 }
                 return;
@@ -40,18 +40,18 @@ public class BaseMapper<E> {
         this.baseEntity.setTableId("id");
     }
 
-    private void setTable(){
+    private void setTable() {
         Class<?> clazz = this.getClass();
         Type type = clazz.getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) type;
         Type[] types = parameterizedType.getActualTypeArguments();
         try {
-            String tableName =types[0].getTypeName();
+            String tableName = types[0].getTypeName();
             Class<?> table = Class.forName(tableName);
-            String tableAnnoVal = table.getAnnotation(Table.class)==null? "":table.getAnnotation(Table.class).value();
-            if (tableAnnoVal.isBlank() || tableAnnoVal.isEmpty()){
-                tableName = tableName.substring(tableName.lastIndexOf(".")+1);
-            }else {
+            String tableAnnoVal = table.getAnnotation(Table.class) == null ? "" : table.getAnnotation(Table.class).value();
+            if (tableAnnoVal.isBlank() || tableAnnoVal.isEmpty()) {
+                tableName = tableName.substring(tableName.lastIndexOf(".") + 1);
+            } else {
                 tableName = tableAnnoVal;
             }
             this.baseEntity.setTableName(tableName);
@@ -60,19 +60,23 @@ public class BaseMapper<E> {
             throw new RuntimeException(e);
         }
     }
-    public QueryWrapper<E> select(){
+
+    public QueryWrapper<E> select() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
         return this.queryWrapper;
     }
-    public QueryWrapper<E> update(){
+
+    public QueryWrapper<E> update() {
         this.baseEntity.setSql(new StringBuffer("update..."));
         return this.queryWrapper;
     }
-    public QueryWrapper<E> insert(){
+
+    public QueryWrapper<E> insert() {
         this.baseEntity.setSql(new StringBuffer("insert..."));
         return this.queryWrapper;
     }
-    public QueryWrapper<E> delete(){
+
+    public QueryWrapper<E> delete() {
         this.baseEntity.setSql(new StringBuffer("delete..."));
         return this.queryWrapper;
     }
@@ -89,8 +93,6 @@ public class BaseMapper<E> {
         QueryExecute<E> execute = new QueryExecute<>(baseEntity);
         return execute.one();
     }
-
-
 
 
 }

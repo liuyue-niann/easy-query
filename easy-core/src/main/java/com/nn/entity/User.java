@@ -15,7 +15,7 @@ public class User {
 
     Integer age;
 
-    @Field(value = "pwd",required = false)
+    @Field(value = "pwd", required = false)
     String password;
 
 
@@ -27,6 +27,4 @@ public class User {
                 ", age=" + age +
                 '}';
     }
-
-
 }
