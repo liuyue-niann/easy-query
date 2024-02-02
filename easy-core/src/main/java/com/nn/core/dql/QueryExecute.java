@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
@@ -57,7 +58,6 @@ public class QueryExecute<E> {
                         Object val = rs.getObject(name);
                         field.set(objectEntity,val);
                     }
-
                 }
                 list.add(objectEntity);
             }
@@ -92,7 +92,16 @@ public class QueryExecute<E> {
         Deque<Object> fieldValue = this.baseEntity.getFieldValue();
         //TODO 打印日志
         logger.info("sql : %s".formatted(sql));
-        logger.info("args: %s".formatted(fieldValue));
+        if (fieldValue.isEmpty()){
+            logger.info("args: null");
+        }else {
+            StringBuilder logStr = new StringBuilder();
+            for (Object o : fieldValue) {
+                logStr.append(o).append(",");
+            }
+            logStr.delete(logStr.length()-1,logStr.length());
+            logger.info("args: %s".formatted(logStr));
+        }
         DataSource datasource = this.baseEntity.getDatasource().getDataSource();
         try {
             Connection connection = datasource.getConnection();
@@ -100,7 +109,13 @@ public class QueryExecute<E> {
             //插入占位符
             int i =1;
             while (!fieldValue.isEmpty()){
-                statement.setObject(i,fieldValue.pop());
+                Object value = fieldValue.pop();
+                if (value instanceof List<?>){
+                    Object[] array = ((List<?>) value).toArray();
+                    statement.setObject(i,array[0]);
+                }else {
+                    statement.setObject(i,value);
+                }
                 i++;
             }
             return statement.executeQuery();
