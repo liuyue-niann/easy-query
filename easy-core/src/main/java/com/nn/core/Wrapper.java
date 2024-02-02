@@ -28,6 +28,8 @@ public class Wrapper<E> {
         return new Wrapper<E>(this.baseEntity);
     }
 
+
+
     public Wrapper<E> and(){
         this.baseEntity.appendSql("and");
         return new Wrapper<E>(this.baseEntity);

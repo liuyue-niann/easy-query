@@ -1,5 +1,6 @@
 package com.nn.core;
 
+import com.nn.annocation.Table;
 import com.nn.entity.User;
 
 import java.lang.reflect.ParameterizedType;
@@ -26,8 +27,13 @@ public class BaseMapper<E> {
         try {
             String tableName =types[0].getTypeName();
             Class<?> table = Class.forName(tableName);
-            tableName = tableName.substring(tableName.lastIndexOf(".")+1);
-            this.baseEntity.setTableName("users");
+            String tableAnnoVal = table.getAnnotation(Table.class)==null? "":table.getAnnotation(Table.class).value();
+            if (tableAnnoVal.isBlank() || tableAnnoVal.isEmpty()){
+                tableName = tableName.substring(tableName.lastIndexOf(".")+1);
+            }else {
+                tableName = tableAnnoVal;
+            }
+            this.baseEntity.setTableName(tableName);
             this.baseEntity.setTable(table);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
