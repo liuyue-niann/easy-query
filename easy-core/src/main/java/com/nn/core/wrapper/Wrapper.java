@@ -2,10 +2,8 @@ package com.nn.core.wrapper;
 
 import com.nn.core.dql.QueryExecute;
 import com.nn.core.wrapper.impl.QueryWrapper;
-import com.nn.entity.User;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author niann
@@ -13,12 +11,18 @@ import java.util.List;
  * @description 条件构造器
  **/
 public interface Wrapper<E> {
-      QueryWrapper<E> where();
-      QueryWrapper<E> eq(String field, Object val);
-      QueryWrapper<E> gt(String field,Object val);
-      QueryWrapper<E> in(String field, Collection<Object> val);
-      QueryWrapper<E> in(String field, Object... val);
-      QueryWrapper<E> and();
-      QueryExecute<E> build();
+    QueryWrapper<E> where();
+
+    QueryWrapper<E> eq(String field, Object val);
+
+    QueryWrapper<E> gt(String field, Object val);
+
+    QueryWrapper<E> in(String field, Collection<Object> val);
+
+    QueryWrapper<E> in(String field, Object... val);
+
+    QueryWrapper<E> and();
+
+    QueryExecute<E> build();
 
 }
