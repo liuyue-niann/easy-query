@@ -1,9 +1,13 @@
 package com.nn.entity;
 
-import jdk.jfr.Registered;
+import com.nn.annocation.Id;
+import com.nn.annocation.Table;
 
-import java.util.Date;
+
+@Table("users")
 public class User {
+
+    @Id
     Integer id;
     String username;
     Integer age;

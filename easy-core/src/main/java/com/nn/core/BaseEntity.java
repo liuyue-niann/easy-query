@@ -21,7 +21,6 @@ public class BaseEntity {
     public DataSourceConfig getDatasource() {
         return datasource;
     }
-
     public String getTableName() {
         return tableName;
     }
@@ -39,7 +38,6 @@ public class BaseEntity {
     }
 
     public Deque<Object> fieldValue =new ArrayDeque<>();
-
 
     public StringBuffer getSql() {
         return sql;

@@ -1,22 +1,21 @@
 package com.nn.core;
 
 import com.nn.annocation.Table;
-import com.nn.entity.User;
+import com.nn.core.dql.wrapper.impl.QueryWrapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 public class BaseMapper<E> {
 
     private final BaseEntity baseEntity;
 
-    private final Wrapper<E> wrapper;
+    private final QueryWrapper<E> queryWrapper;
 
     public BaseMapper(){
         this.baseEntity = new BaseEntity();
         getTable();
-        this.wrapper = new Wrapper<>(baseEntity);
+        this.queryWrapper = new QueryWrapper<>(baseEntity);
     }
 
     private void getTable(){
@@ -39,21 +38,21 @@ public class BaseMapper<E> {
             throw new RuntimeException(e);
         }
     }
-    public Wrapper<E> select(){
+    public QueryWrapper<E> select(){
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
-        return this.wrapper;
+        return this.queryWrapper;
     }
-    public Wrapper<E> update(){
+    public QueryWrapper<E> update(){
         this.baseEntity.setSql(new StringBuffer("update..."));
-        return this.wrapper;
+        return this.queryWrapper;
     }
-    public Wrapper<E> insert(){
+    public QueryWrapper<E> insert(){
         this.baseEntity.setSql(new StringBuffer("insert..."));
-        return this.wrapper;
+        return this.queryWrapper;
     }
-    public Wrapper<E> delete(){
+    public QueryWrapper<E> delete(){
         this.baseEntity.setSql(new StringBuffer("delete..."));
-        return this.wrapper;
+        return this.queryWrapper;
     }
 
 
