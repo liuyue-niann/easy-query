@@ -1,5 +1,6 @@
 package com.nn.core.dql;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import com.nn.core.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,10 @@ import java.util.List;
  * @date 2024/2/2 10:51
  * @description sql执行处理器
  **/
-public class Execute<E> {
+public class QueryExecute<E> {
     private final BaseEntity baseEntity;
-    private final Logger logger = LoggerFactory.getLogger(Execute.class);
-    public Execute(BaseEntity baseEntity) {
+    private final Logger logger = LoggerFactory.getLogger(MysqlxPrepare.Execute.class);
+    public QueryExecute(BaseEntity baseEntity) {
         this.baseEntity = baseEntity;
     }
 

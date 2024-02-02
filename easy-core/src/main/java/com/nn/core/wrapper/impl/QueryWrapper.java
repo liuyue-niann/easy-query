@@ -1,9 +1,9 @@
-package com.nn.core.dql.wrapper.impl;
+package com.nn.core.wrapper.impl;
 
 
 import com.nn.core.BaseEntity;
-import com.nn.core.dql.Execute;
-import com.nn.core.dql.wrapper.Wrapper;
+import com.nn.core.dql.QueryExecute;
+import com.nn.core.wrapper.Wrapper;
 
 /**
  * @author niann
@@ -12,16 +12,12 @@ import com.nn.core.dql.wrapper.Wrapper;
  **/
 public class QueryWrapper<E> implements Wrapper<E> {
     private final BaseEntity baseEntity;
-
     public String getSql(){
         return this.baseEntity.getSql().toString();
     }
-
     public QueryWrapper(BaseEntity baseEntity){
         this.baseEntity = baseEntity;
     }
-
-
     @Override
     public QueryWrapper<E> where(){
         this.baseEntity.appendSql("where");
@@ -42,8 +38,8 @@ public class QueryWrapper<E> implements Wrapper<E> {
         return new QueryWrapper<E>(this.baseEntity);
     }
     @Override
-    public Execute<E> build(){
-        return new Execute<E>(baseEntity);
+    public QueryExecute<E> build(){
+        return new QueryExecute<E>(baseEntity);
     }
 
 

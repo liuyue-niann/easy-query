@@ -1,7 +1,7 @@
 package com.nn.core;
 
 import com.nn.annocation.Table;
-import com.nn.core.dql.wrapper.impl.QueryWrapper;
+import com.nn.core.wrapper.impl.QueryWrapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

@@ -1,7 +1,7 @@
-package com.nn.core.dql.wrapper;
+package com.nn.core.wrapper;
 
-import com.nn.core.dql.Execute;
-import com.nn.core.dql.wrapper.impl.QueryWrapper;
+import com.nn.core.dql.QueryExecute;
+import com.nn.core.wrapper.impl.QueryWrapper;
 
 /**
  * @author niann
@@ -12,5 +12,5 @@ public interface Wrapper<E> {
       QueryWrapper<E> where();
       QueryWrapper<E> eq(String field, Object val);
       QueryWrapper<E> and();
-      Execute<E> build();
+      QueryExecute<E> build();
 }
