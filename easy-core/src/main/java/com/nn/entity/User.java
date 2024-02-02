@@ -6,24 +6,13 @@ import java.util.Date;
 public class User {
     Integer id;
     String username;
-    String email;
-    String password;
-    Date created_at;
+    Integer age;
 
     public Integer getId() {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", created_at=" + created_at +
-                '}';
-    }
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -37,19 +26,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

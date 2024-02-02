@@ -26,7 +26,8 @@ public class BaseMapper<E> {
         try {
             String tableName =types[0].getTypeName();
             Class<?> table = Class.forName(tableName);
-            this.baseEntity.setTableName(tableName);
+            tableName = tableName.substring(tableName.lastIndexOf(".")+1);
+            this.baseEntity.setTableName("users");
             this.baseEntity.setTable(table);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
