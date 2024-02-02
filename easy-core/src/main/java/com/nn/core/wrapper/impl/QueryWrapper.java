@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author niann
  * @date 2024/2/2 10:51
- * @description 条件构造器
+ * @description 条件构造器实现
  **/
 public class QueryWrapper<E> implements Wrapper<E> {
     private final BaseEntity baseEntity;
@@ -52,6 +52,8 @@ public class QueryWrapper<E> implements Wrapper<E> {
         this.baseEntity.appendSql(sql.toString());
         return new QueryWrapper<>(this.baseEntity);
     }
+
+    @Override
     public QueryWrapper<E> in(String field, Object... val) {
         return this.in(field,List.of(val));
     }

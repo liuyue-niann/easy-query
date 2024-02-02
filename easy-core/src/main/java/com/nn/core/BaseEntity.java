@@ -17,7 +17,8 @@ public class BaseEntity {
     private String tableName;
     private Class<?> table;
     private String tableId;
-    private Deque<Object> fieldValue =new ArrayDeque<>();
+    private Deque<Object> fieldValue = new ArrayDeque<>();
+
 
     public String getTableId() {
         return tableId;
@@ -38,6 +39,7 @@ public class BaseEntity {
     public DataSourceConfig getDatasource() {
         return datasource;
     }
+
     public String getTableName() {
         return tableName;
     }
@@ -63,7 +65,11 @@ public class BaseEntity {
         this.sql = sql;
     }
 
-    public void appendSql(String str){
+    public void setSql(String sql) {
+        this.sql = new StringBuffer(sql);
+    }
+
+    public void appendSql(String str) {
         this.sql.append(" %s".formatted(str));
     }
 }

@@ -10,13 +10,14 @@ import java.util.List;
 /**
  * @author niann
  * @date 2024/2/2 13:32
- * @description
+ * @description 条件构造器
  **/
 public interface Wrapper<E> {
       QueryWrapper<E> where();
       QueryWrapper<E> eq(String field, Object val);
       QueryWrapper<E> gt(String field,Object val);
       QueryWrapper<E> in(String field, Collection<Object> val);
+      QueryWrapper<E> in(String field, Object... val);
       QueryWrapper<E> and();
       QueryExecute<E> build();
 
