@@ -2,7 +2,6 @@ package com.nn.core;
 
 import com.nn.config.DataSourceConfig;
 
-import javax.sql.DataSource;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -17,6 +16,24 @@ public class BaseEntity {
     private StringBuffer sql;
     private String tableName;
     private Class<?> table;
+    private String tableId;
+    private Deque<Object> fieldValue =new ArrayDeque<>();
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
+    }
+
+    public Deque<Object> getFieldValue() {
+        return fieldValue;
+    }
+
+    public void setFieldValue(Deque<Object> fieldValue) {
+        this.fieldValue = fieldValue;
+    }
 
     public DataSourceConfig getDatasource() {
         return datasource;
@@ -37,7 +54,6 @@ public class BaseEntity {
         this.table = table;
     }
 
-    public Deque<Object> fieldValue =new ArrayDeque<>();
 
     public StringBuffer getSql() {
         return sql;

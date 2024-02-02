@@ -1,10 +1,14 @@
 package com.nn.core;
 
+import com.nn.annocation.Id;
 import com.nn.annocation.Table;
+import com.nn.core.dql.QueryExecute;
 import com.nn.core.wrapper.impl.QueryWrapper;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class BaseMapper<E> {
 
@@ -14,11 +18,29 @@ public class BaseMapper<E> {
 
     public BaseMapper(){
         this.baseEntity = new BaseEntity();
-        getTable();
+        setTable();
+        setId();
         this.queryWrapper = new QueryWrapper<>(baseEntity);
     }
 
-    private void getTable(){
+    private void setId() {
+        Class<?> clazz = this.baseEntity.getTable();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            Id idAnno = field.getAnnotation(Id.class);
+            if (idAnno!=null){
+                if (idAnno.value().isEmpty() || idAnno.value().isBlank()){
+                    this.baseEntity.setTableId(field.getName());
+                }else {
+                    this.baseEntity.setTableId(idAnno.value());
+                }
+                return;
+            }
+        }
+        this.baseEntity.setTableId("id");
+    }
+
+    private void setTable(){
         Class<?> clazz = this.getClass();
         Type type = clazz.getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) type;
@@ -53,6 +75,19 @@ public class BaseMapper<E> {
     public QueryWrapper<E> delete(){
         this.baseEntity.setSql(new StringBuffer("delete..."));
         return this.queryWrapper;
+    }
+
+    public List<E> list() {
+        this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
+        QueryExecute<E> execute = new QueryExecute<>(baseEntity);
+        return execute.list();
+    }
+
+    public E byId(Object id) {
+        StringBuffer sql = new StringBuffer("select * from %s where %s = %s ".formatted(this.baseEntity.getTableName(), this.baseEntity.getTableId(), id));
+        this.baseEntity.setSql(sql);
+        QueryExecute<E> execute = new QueryExecute<>(baseEntity);
+        return execute.one();
     }
 
 

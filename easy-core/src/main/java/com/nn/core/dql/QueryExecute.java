@@ -89,7 +89,7 @@ public class QueryExecute<E> {
      */
     private ResultSet getResultSet(){
         String sql = baseEntity.getSql().toString();
-        Deque<Object> fieldValue = this.baseEntity.fieldValue;
+        Deque<Object> fieldValue = this.baseEntity.getFieldValue();
         //TODO 打印日志
         logger.info("sql : %s".formatted(sql));
         logger.info("args: %s".formatted(fieldValue));

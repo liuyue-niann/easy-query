@@ -5,6 +5,8 @@ import com.nn.core.BaseEntity;
 import com.nn.core.dql.QueryExecute;
 import com.nn.core.wrapper.Wrapper;
 
+import java.util.List;
+
 /**
  * @author niann
  * @date 2024/2/2 10:51
@@ -26,7 +28,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> eq(String field, Object val){
         this.baseEntity.appendSql("%s = ?".formatted(field));
-        this.baseEntity.fieldValue.add(val);
+        this.baseEntity.getFieldValue().add(val);
         return new QueryWrapper<E>(this.baseEntity);
     }
     @Override
