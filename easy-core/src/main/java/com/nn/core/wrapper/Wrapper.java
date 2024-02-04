@@ -56,6 +56,17 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> or();
 
+    QueryWrapper<E> like(String field, Object var);
+
+    QueryWrapper<E> like(boolean bool, String field, Object var);
+
+    QueryWrapper<E> leftLike(String field, Object var);
+
+    QueryWrapper<E> leftLike(boolean bool, String field, Object var);
+
+    QueryWrapper<E> rightLike(String field, Object var);
+
+    QueryWrapper<E> rightLike(boolean bool, String field, Object var);
 
     QueryExecute<E> build();
 

@@ -62,7 +62,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> eq(boolean bool, String field, Object val) {
         if (bool) {
-            eq(field, val);
+            return eq(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -77,7 +77,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> ne(boolean bool, String field, Object val) {
         if (bool) {
-            ne(field, val);
+            return ne(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -92,7 +92,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> ge(boolean bool, String field, Object val) {
         if (bool) {
-            ge(field, val);
+            return ge(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -107,7 +107,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> gt(boolean bool, String field, Object val) {
         if (bool) {
-            gt(field, val);
+            return gt(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -122,7 +122,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> lt(boolean bool, String field, Object val) {
         if (bool) {
-            lt(field, val);
+            return lt(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -137,7 +137,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> le(boolean bool, String field, Object val) {
         if (bool) {
-            le(field, val);
+            return le(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -163,7 +163,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> in(boolean bool, String field, Object... val) {
         if (bool) {
-            in(field, val);
+            return in(field, val);
         }
         return this.in(field, List.of(val));
     }
@@ -171,7 +171,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> in(boolean bool, String field, Object val) {
         if (bool) {
-            in(field, val);
+            return in(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -179,7 +179,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> in(boolean bool, String field, Collection<Object> val) {
         if (bool) {
-            in(field, val);
+            return in(field, val);
         }
         return new QueryWrapper<>(this.baseEntity);
     }
@@ -195,6 +195,51 @@ public class QueryWrapper<E> implements Wrapper<E> {
     public QueryWrapper<E> or() {
         this.baseEntity.appendSql("or");
         return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> like(String field, Object var) {
+        this.baseEntity.appendSql("%s like ?".formatted(field));
+        this.baseEntity.getFieldValue().add("%" + var + "%");
+        return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> like(boolean bool, String field, Object var) {
+        if (bool) {
+            return like(field, var);
+        }
+        return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> leftLike(String field, Object var) {
+        this.baseEntity.appendSql("%s like ?".formatted(field));
+        this.baseEntity.getFieldValue().add("%" + var);
+        return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> leftLike(boolean bool, String field, Object var) {
+        if (bool) {
+            return leftLike(field, var);
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> rightLike(String field, Object var) {
+        this.baseEntity.appendSql("%s like ?".formatted(field));
+        this.baseEntity.getFieldValue().add(var + "%");
+        return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> rightLike(boolean bool, String field, Object var) {
+        if (bool) {
+            return rightLike(field, var);
+        }
+        return new QueryWrapper<>(this.baseEntity);
     }
 
 
