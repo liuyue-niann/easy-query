@@ -1,6 +1,6 @@
-package com.query.nn.core;
+package com.nn.query.core;
 
-import com.query.nn.config.DataSourceConfig;
+import com.nn.query.config.DataSourceConfig;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

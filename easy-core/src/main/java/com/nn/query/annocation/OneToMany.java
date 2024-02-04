@@ -1,4 +1,4 @@
-package com.query.nn.annocation;
+package com.nn.query.annocation;
 
 import java.lang.annotation.*;
 

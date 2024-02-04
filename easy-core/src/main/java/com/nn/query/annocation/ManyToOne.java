@@ -1,19 +1,15 @@
-package com.query.nn.annocation;
+package com.nn.query.annocation;
 
 import java.lang.annotation.*;
 
 /**
  * @author niann
- * @date 2024/2/2 14:49
- * @description
+ * @date 2024/2/2 18:41
+ * @description 映射关系:多对一
  **/
-
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Field {
-
+public @interface ManyToOne {
     String value() default "";
-
-    boolean required() default true;
 }

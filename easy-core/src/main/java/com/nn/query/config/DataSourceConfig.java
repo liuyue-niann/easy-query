@@ -1,4 +1,4 @@
-package com.query.nn.config;
+package com.nn.query.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 

@@ -1,14 +1,14 @@
-package com.query.nn.core.dql;
+package com.nn.query.core.dql;
 
-import com.query.nn.annocation.Id;
-import com.query.nn.annocation.ManyToOne;
-import com.query.nn.annocation.OneToMany;
-import com.query.nn.annocation.Table;
-import com.query.nn.query.cache.QueryCache;
-import com.query.nn.query.cache.impl.QueryCacheImpl;
-import com.query.nn.core.BaseEntity;
-import com.query.nn.exception.EntityException;
-import com.query.nn.exception.QueryException;
+import com.nn.query.annocation.Id;
+import com.nn.query.annocation.ManyToOne;
+import com.nn.query.annocation.OneToMany;
+import com.nn.query.annocation.Table;
+import com.nn.query.core.BaseEntity;
+import com.nn.query.exception.EntityException;
+import com.nn.query.exception.QueryException;
+import com.nn.query.cache.QueryCache;
+import com.nn.query.cache.impl.QueryCacheImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,7 +107,7 @@ public class QueryExecute<E> {
                     if (manyToOne != null || oneToMany != null) {
                         continue;
                     }
-                    com.query.nn.annocation.Field fieldAnno = var.getAnnotation(com.query.nn.annocation.Field.class);
+                    com.nn.query.annocation.Field fieldAnno = var.getAnnotation(com.nn.query.annocation.Field.class);
                     //TODO
                     Id idAnno = var.getAnnotation(Id.class);
                     String name;
@@ -196,7 +196,7 @@ public class QueryExecute<E> {
                         field.set(objectEntity, e);
                         continue;
                     }
-                    com.query.nn.annocation.Field fieldAnno = field.getAnnotation(com.query.nn.annocation.Field.class);
+                    com.nn.query.annocation.Field fieldAnno = field.getAnnotation(com.nn.query.annocation.Field.class);
                     Id idAnno = field.getAnnotation(Id.class);
                     String name;
                     if (fieldAnno != null) {

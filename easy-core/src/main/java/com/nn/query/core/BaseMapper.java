@@ -1,9 +1,9 @@
-package com.query.nn.core;
+package com.nn.query.core;
 
-import com.query.nn.annocation.Id;
-import com.query.nn.annocation.Table;
-import com.query.nn.core.dql.QueryExecute;
-import com.query.nn.core.wrapper.impl.QueryWrapper;
+import com.nn.query.annocation.Id;
+import com.nn.query.annocation.Table;
+import com.nn.query.core.wrapper.impl.QueryWrapper;
+import com.nn.query.core.dql.QueryExecute;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

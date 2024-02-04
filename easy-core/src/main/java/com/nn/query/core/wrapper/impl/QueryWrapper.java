@@ -1,10 +1,10 @@
-package com.query.nn.core.wrapper.impl;
+package com.nn.query.core.wrapper.impl;
 
 
-import com.query.nn.annocation.Table;
-import com.query.nn.core.BaseEntity;
-import com.query.nn.core.dql.QueryExecute;
-import com.query.nn.core.wrapper.Wrapper;
+import com.nn.query.annocation.Table;
+import com.nn.query.core.wrapper.Wrapper;
+import com.nn.query.core.BaseEntity;
+import com.nn.query.core.dql.QueryExecute;
 
 import java.util.Collection;
 import java.util.List;
