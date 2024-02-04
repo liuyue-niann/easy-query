@@ -3,15 +3,19 @@ package com.nn.config;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DataSourceConfig {
-
-    public  DataSource getDataSource() {
+    
+    public DataSource getDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mysql://192.168.10.33:3306/db01");
-        dataSource.setUsername("root");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/db01");
+        dataSource.setUsername("postgres");
         dataSource.setPassword("root");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setDriverClassName("org.postgresql.Driver");
         return dataSource;
     }
 }

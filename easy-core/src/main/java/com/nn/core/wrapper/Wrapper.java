@@ -15,13 +15,23 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> eq(String field, Object val);
 
+    QueryWrapper<E> ne(String field, Object val);
+
+    QueryWrapper<E> ge(String field, Object val);
+
     QueryWrapper<E> gt(String field, Object val);
+
+    QueryWrapper<E> lt(String field, Object val);
+
+    QueryWrapper<E> le(String field, Object val);
 
     QueryWrapper<E> in(String field, Collection<Object> val);
 
     QueryWrapper<E> in(String field, Object... val);
 
     QueryWrapper<E> and();
+
+    QueryWrapper<E> or();
 
     QueryExecute<E> build();
 

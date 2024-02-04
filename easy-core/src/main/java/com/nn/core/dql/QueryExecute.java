@@ -1,6 +1,6 @@
 package com.nn.core.dql;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import com.nn.annocation.Id;
 import com.nn.annocation.Many;
 import com.nn.annocation.One;
 import com.nn.annocation.Table;
@@ -30,7 +30,7 @@ import java.util.List;
  **/
 public class QueryExecute<E> {
     private final BaseEntity baseEntity;
-    private final Logger logger = LoggerFactory.getLogger(MysqlxPrepare.Execute.class);
+    private final Logger logger = LoggerFactory.getLogger(QueryExecute.class);
 
     public QueryExecute(BaseEntity baseEntity) {
         this.baseEntity = baseEntity;
@@ -148,13 +148,14 @@ public class QueryExecute<E> {
 //                    有@One注解时:一对一
                     One oneAnno = field.getAnnotation(One.class);
                     if (oneAnno != null) {
-                        String id = oneAnno.value().isBlank() ? field.getName() : oneAnno.value();
-                        Object val = rs.getObject(id);
-                        E e = one(entity, field, id, val);
+                        String fieldName = oneAnno.value().isBlank() ? field.getName() : oneAnno.value();
+                        Object val = rs.getObject(fieldName);
+                        E e = one(entity, field, fieldName, val);
                         field.set(objectEntity, e);
                         continue;
                     }
                     com.nn.annocation.Field fieldAnno = field.getAnnotation(com.nn.annocation.Field.class);
+                    Id idAnno = field.getAnnotation(Id.class);
                     String name;
                     if (fieldAnno != null) {
                         name = fieldAnno.value().isBlank() ? field.getName() : fieldAnno.value();
@@ -162,6 +163,10 @@ public class QueryExecute<E> {
                             Object val = rs.getObject(name);
                             field.set(objectEntity, val);
                         }
+                    } else if (idAnno != null) {
+                        name = idAnno.value().isBlank() ? field.getName() : idAnno.value();
+                        Object val = rs.getObject(name);
+                        field.set(objectEntity, val);
                     } else {
                         name = field.getName();
                         Object val = rs.getObject(name);
@@ -177,7 +182,7 @@ public class QueryExecute<E> {
         return list;
     }
 
-    private E one(Class<?> entity, Field field, String id, Object val) {
+    private E one(Class<?> entity, Field field, String fieldName, Object val) {
         Type type = field.getGenericType();
         // 条件判断
         if (type instanceof ParameterizedType) {
@@ -186,7 +191,7 @@ public class QueryExecute<E> {
         String tableName = field.getType().getName();
         try {
             Class<?> clazz = Class.forName(tableName);
-            List<E> list = query(field, id, val, clazz);
+            List<E> list = query(field, fieldName, val, clazz);
             if (list.size() > 1) {
                 throw new QueryException("The field %s should receive 1 parameter, but the result is %s".formatted(field.getName(), list.size()));
             }

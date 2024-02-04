@@ -25,11 +25,10 @@
             <version>5.0.0</version> <!-- 版本号请使用最新版本 -->
         </dependency>
 
-        <!-- MySQL Connector Java -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.27</version> <!-- 版本号请使用最新版本 -->
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.25</version>
         </dependency>
     </dependencies>
 </project>
