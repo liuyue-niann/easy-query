@@ -15,6 +15,8 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> limit(Object limit);
 
+    QueryWrapper<E> join(Class<?> clazz);
+
     QueryWrapper<E> eq(String field, Object val);
 
     QueryWrapper<E> ne(String field, Object val);

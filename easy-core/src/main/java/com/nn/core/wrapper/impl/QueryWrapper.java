@@ -1,6 +1,7 @@
 package com.nn.core.wrapper.impl;
 
 
+import com.nn.annocation.Table;
 import com.nn.core.BaseEntity;
 import com.nn.core.dql.QueryExecute;
 import com.nn.core.wrapper.Wrapper;
@@ -34,6 +35,20 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> limit(Object limit) {
         this.baseEntity.appendSql("limit %s".formatted(limit));
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> join(Class<?> clazz) {
+        Table table = clazz.getAnnotation(Table.class);
+        String tableName;
+        if (table == null || table.value() == null || table.value().isEmpty()) {
+            String typeName = clazz.getTypeName();
+            tableName = typeName.substring(typeName.lastIndexOf(".") + 1);
+        } else {
+            tableName = table.value();
+        }
+        this.baseEntity.appendSql("join %s ".formatted(tableName));
         return new QueryWrapper<>(this.baseEntity);
     }
 

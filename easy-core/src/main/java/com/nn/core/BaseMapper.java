@@ -61,19 +61,6 @@ public class BaseMapper<E> {
         }
     }
 
-    public QueryWrapper<E> join(Class<?> clazz) {
-        Table table = clazz.getAnnotation(Table.class);
-        String tableName;
-        if (table == null || table.value() == null || table.value().isEmpty()) {
-            String typeName = clazz.getTypeName();
-            tableName = typeName.substring(typeName.lastIndexOf(".") + 1);
-        } else {
-            tableName = table.value();
-        }
-        select();
-        this.baseEntity.appendSql("join %s ".formatted(tableName));
-        return this.queryWrapper;
-    }
 
     public QueryWrapper<E> select() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
