@@ -4,6 +4,8 @@ import com.nn.annocation.Id;
 import com.nn.annocation.ManyToOne;
 import com.nn.annocation.OneToMany;
 import com.nn.annocation.Table;
+import com.nn.cache.QueryCache;
+import com.nn.cache.impl.QueryCacheImpl;
 import com.nn.core.BaseEntity;
 import com.nn.exception.EntityException;
 import com.nn.exception.QueryException;
@@ -55,7 +57,9 @@ public class QueryExecute<E> {
         Type[] types = parameterizedType.getActualTypeArguments();
         String tableName = types[0].getTypeName();
         try {
-            return query(field, id, value, Class.forName(tableName));
+            List<E> list = query(field, id, value, Class.forName(tableName));
+            saveCache(list);
+            return list;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -70,6 +74,10 @@ public class QueryExecute<E> {
      * @return
      */
     private List<E> query(Field field, String id, Object value, Class<?> clazz) {
+        Object cacheData = queryCache();
+        if (cacheData != null) {
+            return (List<E>) cacheData;
+        }
         List<E> list = new ArrayList<>();
         ResultSet rs = null;
         Table table = clazz.getAnnotation(Table.class);
@@ -132,12 +140,28 @@ public class QueryExecute<E> {
         }
     }
 
+    private Object queryCache() {
+        QueryCache cache = new QueryCacheImpl();
+        String sql = this.baseEntity.getSql().toString();
+        return cache.query(sql);
+    }
+
+    private void saveCache(Object value) {
+        QueryCache cache = new QueryCacheImpl();
+        cache.save(this.baseEntity.getSql().toString(), value);
+
+    }
+
     /**
      * 查询多行
      *
      * @return
      */
     public List<E> list() {
+        Object data = queryCache();
+        if (data != null) {
+            return (List<E>) data;
+        }
         List<E> list = new ArrayList<>();
         Class<?> entity = this.baseEntity.getTable();
         try (ResultSet rs = getResultSet()) {
@@ -189,6 +213,8 @@ public class QueryExecute<E> {
                  InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        //添加缓存
+        saveCache(list);
         return list;
     }
 
@@ -208,7 +234,9 @@ public class QueryExecute<E> {
             if (list.isEmpty()) {
                 return null;
             }
-            return list.get(0);
+            E r = list.get(0);
+            saveCache(r);
+            return r;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -227,8 +255,10 @@ public class QueryExecute<E> {
         if (list.size() > 1) {
             throw new QueryException("The query result expectation is: 1 row, but the result is: %s row".formatted(list.size()));
         }
-
-        return list.get(0);
+        //添加缓存
+        E r = list.get(0);
+        saveCache(r);
+        return r;
     }
 
 

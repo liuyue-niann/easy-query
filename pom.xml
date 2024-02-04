@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>easy-core</module>
+        <module>easy-cache</module>
     </modules>
 
     <properties>
@@ -31,6 +32,16 @@
             <version>1.4.14</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.0</version> <!-- 版本号请使用最新版本 -->
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.25</version>
+        </dependency>
     </dependencies>
 
 </project>
