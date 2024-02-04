@@ -13,6 +13,8 @@ import java.util.Collection;
 public interface Wrapper<E> {
     QueryWrapper<E> where();
 
+    QueryWrapper<E> limit(Object limit);
+
     QueryWrapper<E> eq(String field, Object val);
 
     QueryWrapper<E> ne(String field, Object val);
@@ -32,6 +34,7 @@ public interface Wrapper<E> {
     QueryWrapper<E> and();
 
     QueryWrapper<E> or();
+
 
     QueryExecute<E> build();
 

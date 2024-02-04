@@ -32,6 +32,12 @@ public class QueryWrapper<E> implements Wrapper<E> {
     }
 
     @Override
+    public QueryWrapper<E> limit(Object limit) {
+        this.baseEntity.appendSql("limit %s".formatted(limit));
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
     public QueryWrapper<E> eq(String field, Object val) {
         this.baseEntity.appendSql("%s = ?".formatted(field));
         this.baseEntity.getFieldValue().add(val);
@@ -112,7 +118,7 @@ public class QueryWrapper<E> implements Wrapper<E> {
 
     @Override
     public QueryExecute<E> build() {
-        return new QueryExecute<E>(baseEntity);
+        return new QueryExecute<>(baseEntity);
     }
 
 
