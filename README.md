@@ -2,30 +2,7 @@
 
 🌤️简单的操作，极致的享受
 
-### 项目结构
 
-```java
-src
-  ├─main
-  │  ├─java
-  │  │  └─com
-  │  │      └─nn
-  │  │          ├─annocation 相关注解
-  │  │          ├─config  数据源配置
-  │  │          ├─core
-  │  │          │  ├─dml 
-  │  │          │  ├─dql 查询处理器
-  │  │          │  └─wrapper 条件构造器
-  │  │          │      └─impl
-  │  │          ├─entity 测试实体类(后期删除)
-  │  │          ├─exception 异常处理
-  │  │          ├─service 后期删除
-  │  │          └─test 后期删除
-  │  └─resources 
-  └─test
-
-
-```
 
 ### 快速启动
 
@@ -40,7 +17,6 @@ CREATE TABLE `users`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci
-
 ```
 
 #### 创建实体
@@ -57,7 +33,6 @@ public class User {
 
     @Field(value = "pwd", required = false)
     String password;
-
 
     @Override
     public String toString() {
@@ -98,3 +73,11 @@ userService.
                 .build().one();
 //select * from users where id = 1 and username ='user1'
 ```
+### 相关注解
+
+- @Table: 实体类注解,定义实体表名
+- @Id: 定义id字段
+- @Field: 定义字段别名
+  - 参数: required如果是false则不参与数据查询映射
+- @ManyToOne: 多对一注解
+- @OneToMany: 一对多注解
