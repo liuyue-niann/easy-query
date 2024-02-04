@@ -1,4 +1,4 @@
-package com.nn.cache;
+package com.query.nn.query.cache;
 
 import java.util.HashMap;
 

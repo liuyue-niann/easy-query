@@ -1,4 +1,4 @@
-package com.nn.annocation;
+package com.query.nn.annocation;
 
 import jdk.jfr.Registered;
 

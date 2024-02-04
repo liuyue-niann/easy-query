@@ -1,6 +1,6 @@
-package com.nn.cache.impl;
+package com.query.nn.query.cache.impl;
 
-import com.nn.cache.QueryCache;
+import com.query.nn.query.cache.QueryCache;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

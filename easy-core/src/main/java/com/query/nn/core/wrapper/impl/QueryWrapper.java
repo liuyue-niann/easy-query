@@ -1,14 +1,13 @@
-package com.nn.core.wrapper.impl;
+package com.query.nn.core.wrapper.impl;
 
 
-import com.nn.annocation.Table;
-import com.nn.core.BaseEntity;
-import com.nn.core.dql.QueryExecute;
-import com.nn.core.wrapper.Wrapper;
+import com.query.nn.annocation.Table;
+import com.query.nn.core.BaseEntity;
+import com.query.nn.core.dql.QueryExecute;
+import com.query.nn.core.wrapper.Wrapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author niann

@@ -1,4 +1,4 @@
-package com.nn.exception;
+package com.query.nn.exception;
 
 /**
  * @author niann

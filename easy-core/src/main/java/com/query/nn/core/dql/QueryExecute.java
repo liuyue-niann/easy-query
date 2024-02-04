@@ -1,14 +1,14 @@
-package com.nn.core.dql;
+package com.query.nn.core.dql;
 
-import com.nn.annocation.Id;
-import com.nn.annocation.ManyToOne;
-import com.nn.annocation.OneToMany;
-import com.nn.annocation.Table;
-import com.nn.cache.QueryCache;
-import com.nn.cache.impl.QueryCacheImpl;
-import com.nn.core.BaseEntity;
-import com.nn.exception.EntityException;
-import com.nn.exception.QueryException;
+import com.query.nn.annocation.Id;
+import com.query.nn.annocation.ManyToOne;
+import com.query.nn.annocation.OneToMany;
+import com.query.nn.annocation.Table;
+import com.query.nn.query.cache.QueryCache;
+import com.query.nn.query.cache.impl.QueryCacheImpl;
+import com.query.nn.core.BaseEntity;
+import com.query.nn.exception.EntityException;
+import com.query.nn.exception.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
@@ -108,7 +107,7 @@ public class QueryExecute<E> {
                     if (manyToOne != null || oneToMany != null) {
                         continue;
                     }
-                    com.nn.annocation.Field fieldAnno = var.getAnnotation(com.nn.annocation.Field.class);
+                    com.query.nn.annocation.Field fieldAnno = var.getAnnotation(com.query.nn.annocation.Field.class);
                     //TODO
                     Id idAnno = var.getAnnotation(Id.class);
                     String name;
@@ -197,7 +196,7 @@ public class QueryExecute<E> {
                         field.set(objectEntity, e);
                         continue;
                     }
-                    com.nn.annocation.Field fieldAnno = field.getAnnotation(com.nn.annocation.Field.class);
+                    com.query.nn.annocation.Field fieldAnno = field.getAnnotation(com.query.nn.annocation.Field.class);
                     Id idAnno = field.getAnnotation(Id.class);
                     String name;
                     if (fieldAnno != null) {

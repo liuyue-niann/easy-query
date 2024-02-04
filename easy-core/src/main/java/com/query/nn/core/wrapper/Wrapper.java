@@ -1,7 +1,7 @@
-package com.nn.core.wrapper;
+package com.query.nn.core.wrapper;
 
-import com.nn.core.dql.QueryExecute;
-import com.nn.core.wrapper.impl.QueryWrapper;
+import com.query.nn.core.dql.QueryExecute;
+import com.query.nn.core.wrapper.impl.QueryWrapper;
 
 import java.util.Collection;
 

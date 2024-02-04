@@ -1,4 +1,4 @@
-package com.nn.config;
+package com.query.nn.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DataSourceConfig {
-    
+
     public DataSource getDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/db01");
