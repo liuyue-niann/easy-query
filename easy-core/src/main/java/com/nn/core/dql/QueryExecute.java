@@ -147,7 +147,6 @@ public class QueryExecute<E> {
                 Field[] fields = entity.getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    //TODO
                     ManyToOne manyToOneAnno = field.getAnnotation(ManyToOne.class);
                     if (manyToOneAnno != null) {
                         String fieldName = manyToOneAnno.value().isBlank() ? field.getName() : manyToOneAnno.value();
@@ -241,7 +240,7 @@ public class QueryExecute<E> {
     private ResultSet getResultSet() {
         String sql = baseEntity.getSql().toString();
         Deque<Object> fieldValue = this.baseEntity.getFieldValue();
-        //TODO 打印日志
+        // 打印日志
         logger.info("sql : %s".formatted(sql));
         if (fieldValue.isEmpty()) {
             logger.info("args: null");
@@ -269,7 +268,9 @@ public class QueryExecute<E> {
                 }
                 i++;
             }
-            return statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            logger.info("querying the database...");
+            return resultSet;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
