@@ -60,10 +60,26 @@ public class QueryWrapper<E> implements Wrapper<E> {
     }
 
     @Override
+    public QueryWrapper<E> eq(boolean bool, String field, Object val) {
+        if (bool) {
+            eq(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
     public QueryWrapper<E> ne(String field, Object val) {
         this.baseEntity.appendSql("%s != ?".formatted(field));
         this.baseEntity.getFieldValue().add(val);
         return new QueryWrapper<E>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> ne(boolean bool, String field, Object val) {
+        if (bool) {
+            ne(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
     }
 
     @Override
@@ -74,9 +90,25 @@ public class QueryWrapper<E> implements Wrapper<E> {
     }
 
     @Override
+    public QueryWrapper<E> ge(boolean bool, String field, Object val) {
+        if (bool) {
+            ge(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
     public QueryWrapper<E> gt(String field, Object val) {
         this.baseEntity.appendSql("%s > ?".formatted(field));
         this.baseEntity.getFieldValue().add(val);
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> gt(boolean bool, String field, Object val) {
+        if (bool) {
+            gt(field, val);
+        }
         return new QueryWrapper<>(this.baseEntity);
     }
 
@@ -88,9 +120,25 @@ public class QueryWrapper<E> implements Wrapper<E> {
     }
 
     @Override
+    public QueryWrapper<E> lt(boolean bool, String field, Object val) {
+        if (bool) {
+            lt(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
     public QueryWrapper<E> le(String field, Object val) {
         this.baseEntity.appendSql("%s <= ?".formatted(field));
         this.baseEntity.getFieldValue().add(val);
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> le(boolean bool, String field, Object val) {
+        if (bool) {
+            le(field, val);
+        }
         return new QueryWrapper<>(this.baseEntity);
     }
 
@@ -110,6 +158,30 @@ public class QueryWrapper<E> implements Wrapper<E> {
     @Override
     public QueryWrapper<E> in(String field, Object... val) {
         return this.in(field, List.of(val));
+    }
+
+    @Override
+    public QueryWrapper<E> in(boolean bool, String field, Object... val) {
+        if (bool) {
+            in(field, val);
+        }
+        return this.in(field, List.of(val));
+    }
+
+    @Override
+    public QueryWrapper<E> in(boolean bool, String field, Object val) {
+        if (bool) {
+            in(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> in(boolean bool, String field, Collection<Object> val) {
+        if (bool) {
+            in(field, val);
+        }
+        return new QueryWrapper<>(this.baseEntity);
     }
 
 

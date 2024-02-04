@@ -19,19 +19,38 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> eq(String field, Object val);
 
+    QueryWrapper<E> eq(boolean bool, String field, Object val);
+
     QueryWrapper<E> ne(String field, Object val);
+
+    QueryWrapper<E> ne(boolean bool, String field, Object val);
 
     QueryWrapper<E> ge(String field, Object val);
 
+    QueryWrapper<E> ge(boolean bool, String field, Object val);
+
     QueryWrapper<E> gt(String field, Object val);
+
+    QueryWrapper<E> gt(boolean bool, String field, Object val);
 
     QueryWrapper<E> lt(String field, Object val);
 
+    QueryWrapper<E> lt(boolean bool, String field, Object val);
+
     QueryWrapper<E> le(String field, Object val);
+
+    QueryWrapper<E> le(boolean bool, String field, Object val);
 
     QueryWrapper<E> in(String field, Collection<Object> val);
 
+
     QueryWrapper<E> in(String field, Object... val);
+
+    QueryWrapper<E> in(boolean bool, String field, Object... val);
+
+    QueryWrapper<E> in(boolean bool, String field, Object val);
+
+    QueryWrapper<E> in(boolean bool, String field, Collection<Object> val);
 
     QueryWrapper<E> and();
 
