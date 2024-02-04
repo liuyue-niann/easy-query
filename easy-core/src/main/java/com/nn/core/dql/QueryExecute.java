@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
@@ -76,7 +77,11 @@ public class QueryExecute<E> {
     private List<E> query(Field field, String id, Object value, Class<?> clazz) {
         Object cacheData = queryCache();
         if (cacheData != null) {
-            return (List<E>) cacheData;
+            if (cacheData instanceof List<?>) {
+                return (List<E>) cacheData;
+            } else {
+                return (List<E>) List.of(cacheData);
+            }
         }
         List<E> list = new ArrayList<>();
         ResultSet rs = null;
@@ -160,7 +165,11 @@ public class QueryExecute<E> {
     public List<E> list() {
         Object data = queryCache();
         if (data != null) {
-            return (List<E>) data;
+            if (data instanceof List<?>) {
+                return (List<E>) data;
+            } else {
+                return (List<E>) List.of(data);
+            }
         }
         List<E> list = new ArrayList<>();
         Class<?> entity = this.baseEntity.getTable();
