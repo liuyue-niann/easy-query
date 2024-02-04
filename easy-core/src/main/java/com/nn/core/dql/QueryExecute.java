@@ -90,7 +90,9 @@ public class QueryExecute<E> {
                 E e = (E) clazz.getDeclaredConstructor().newInstance();
                 for (Field var : fields) {
                     var.setAccessible(true);
-                    com.nn.annocation.Field fieldAnno = field.getAnnotation(com.nn.annocation.Field.class);
+                    com.nn.annocation.Field fieldAnno = var.getAnnotation(com.nn.annocation.Field.class);
+                    //TODO
+                    Id idAnno = var.getAnnotation(Id.class);
                     String name;
                     if (fieldAnno != null) {
                         name = fieldAnno.value().isBlank() ? var.getName() : fieldAnno.value();
@@ -98,6 +100,10 @@ public class QueryExecute<E> {
                             Object val = rs.getObject(name);
                             var.set(e, val);
                         }
+                    } else if (idAnno != null) {
+                        name = idAnno.value().isBlank() ? var.getName() : idAnno.value();
+                        Object val = rs.getObject(name);
+                        var.set(e, val);
                     } else {
                         name = var.getName();
                         Object val = rs.getObject(name);
