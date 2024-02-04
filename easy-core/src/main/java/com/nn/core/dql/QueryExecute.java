@@ -1,8 +1,8 @@
 package com.nn.core.dql;
 
 import com.nn.annocation.Id;
-import com.nn.annocation.Many;
-import com.nn.annocation.One;
+import com.nn.annocation.ManyToOne;
+import com.nn.annocation.OneToMany;
 import com.nn.annocation.Table;
 import com.nn.core.BaseEntity;
 import com.nn.exception.EntityException;
@@ -46,7 +46,7 @@ public class QueryExecute<E> {
      * @param id
      * @return
      */
-    private List<E> many(Class<?> entity, Field field, String id, Object value) {
+    private List<E> oneToMany(Class<?> entity, Field field, String id, Object value) {
         Type type = field.getGenericType();
         // 条件判断
         if (!(type instanceof ParameterizedType parameterizedType)) {
@@ -90,6 +90,11 @@ public class QueryExecute<E> {
                 E e = (E) clazz.getDeclaredConstructor().newInstance();
                 for (Field var : fields) {
                     var.setAccessible(true);
+                    ManyToOne manyToOne = var.getAnnotation(ManyToOne.class);
+                    OneToMany oneToMany = var.getAnnotation(OneToMany.class);
+                    if (manyToOne != null || oneToMany != null) {
+                        continue;
+                    }
                     com.nn.annocation.Field fieldAnno = var.getAnnotation(com.nn.annocation.Field.class);
                     //TODO
                     Id idAnno = var.getAnnotation(Id.class);
@@ -142,21 +147,21 @@ public class QueryExecute<E> {
                 Field[] fields = entity.getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
-//                   有@Many注解时:一对多
-                    Many manyAnno = field.getAnnotation(Many.class);
-                    if (manyAnno != null) {
-                        String id = manyAnno.value().isBlank() ? field.getName() : manyAnno.value();
-                        Object val = rs.getObject(id);
-                        List<E> e = many(entity, field, id, val);
+                    //TODO
+                    ManyToOne manyToOneAnno = field.getAnnotation(ManyToOne.class);
+                    if (manyToOneAnno != null) {
+                        String fieldName = manyToOneAnno.value().isBlank() ? field.getName() : manyToOneAnno.value();
+                        Object val = rs.getObject(fieldName);
+                        E e = manyToOne(entity, field, fieldName, val);
+
                         field.set(objectEntity, e);
                         continue;
                     }
-//                    有@One注解时:一对一
-                    One oneAnno = field.getAnnotation(One.class);
-                    if (oneAnno != null) {
-                        String fieldName = oneAnno.value().isBlank() ? field.getName() : oneAnno.value();
+                    OneToMany oneToManyAnno = field.getAnnotation(OneToMany.class);
+                    if (oneToManyAnno != null) {
+                        String fieldName = oneToManyAnno.value().isBlank() ? field.getName() : oneToManyAnno.value();
                         Object val = rs.getObject(fieldName);
-                        E e = one(entity, field, fieldName, val);
+                        List<E> e = oneToMany(entity, field, fieldName, val);
                         field.set(objectEntity, e);
                         continue;
                     }
@@ -188,7 +193,7 @@ public class QueryExecute<E> {
         return list;
     }
 
-    private E one(Class<?> entity, Field field, String fieldName, Object val) {
+    private E manyToOne(Class<?> entity, Field field, String fieldName, Object val) {
         Type type = field.getGenericType();
         // 条件判断
         if (type instanceof ParameterizedType) {
