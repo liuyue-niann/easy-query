@@ -242,6 +242,45 @@ public class QueryWrapper<E> implements Wrapper<E> {
         return new QueryWrapper<>(this.baseEntity);
     }
 
+    @Override
+    public QueryWrapper<E> order(Object... field) {
+        List<Object> fields = List.of(field);
+        if (fields.size() == 1) {
+            this.baseEntity.appendSql("order by %s".formatted(field[0]));
+        } else {
+            this.baseEntity.appendSql("order by");
+            for (Object var : fields) {
+                this.baseEntity.appendSql("%s,".formatted(var));
+            }
+        }
+        String sql = this.baseEntity.getSql().toString();
+        int i = sql.lastIndexOf(",");
+        if (i != -1) {
+            this.baseEntity.getSql().delete(i, sql.length());
+        }
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public QueryWrapper<E> orderDesc(Object... field) {
+        List<Object> fields = List.of(field);
+        if (fields.size() == 1) {
+            this.baseEntity.appendSql("order by %s".formatted(field[0]));
+        } else {
+            this.baseEntity.appendSql("order by ");
+            for (Object var : fields) {
+                this.baseEntity.appendSql("%s,".formatted(var));
+            }
+        }
+        String sql = this.baseEntity.getSql().toString();
+        int i = sql.lastIndexOf(",");
+        if (i != -1) {
+            this.baseEntity.getSql().delete(i, sql.length());
+        }
+        this.baseEntity.appendSql("desc");
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
 
     public QueryWrapper<E> on(String args) {
         this.baseEntity.appendSql("on %s".formatted(args));

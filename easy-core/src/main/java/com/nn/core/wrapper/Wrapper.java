@@ -68,6 +68,10 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> rightLike(boolean bool, String field, Object var);
 
+    QueryWrapper<E> order(Object... field);
+
+    QueryWrapper<E> orderDesc(Object... field);
+
     QueryExecute<E> build();
 
 }
