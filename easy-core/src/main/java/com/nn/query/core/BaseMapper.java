@@ -8,6 +8,7 @@ import com.nn.query.core.wrapper.impl.QueryWrapper;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.List;
 
 public class BaseMapper<E> {
@@ -62,22 +63,22 @@ public class BaseMapper<E> {
     }
 
 
-    public QueryWrapper<E> select() {
+    public final QueryWrapper<E> select() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
         return this.queryWrapper;
     }
 
-    public QueryWrapper<E> update() {
+    public final QueryWrapper<E> update() {
         this.baseEntity.setSql(new StringBuffer("update..."));
         return this.queryWrapper;
     }
 
-    public QueryWrapper<E> insert() {
+    public final QueryWrapper<E> insert() throws SQLException {
         this.baseEntity.setSql(new StringBuffer("insert..."));
         return this.queryWrapper;
     }
 
-    public QueryWrapper<E> delete() {
+    public final QueryWrapper<E> delete() {
         this.baseEntity.setSql(new StringBuffer("delete..."));
         return this.queryWrapper;
     }
@@ -88,7 +89,7 @@ public class BaseMapper<E> {
         return execute.list();
     }
 
-    public E byId(Object id) {
+    public final E byId(Object id) {
         StringBuffer sql = new StringBuffer("select * from %s where %s = %s ".formatted(this.baseEntity.getTableName(), this.baseEntity.getTableId(), id));
         this.baseEntity.setSql(sql);
         QueryExecute<E> execute = new QueryExecute<>(baseEntity);
