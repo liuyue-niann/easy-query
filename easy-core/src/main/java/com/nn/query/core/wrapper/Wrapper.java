@@ -14,11 +14,6 @@ import java.util.List;
 public interface Wrapper<E> {
     QueryWrapper<E> where();
 
-    List<E> limit(Long limit);
-
-    List<E> limit(Integer limit);
-
-    List<E> limit(String limit);
 
     QueryWrapper<E> join(Class<?> table);
 
@@ -79,11 +74,6 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> orderDesc(Object... field);
 
-    List<E> page(Long pageNumber, Long limit);
-
-    List<E> page(String pageNumber, String limit);
-
-    List<E> page(Integer pageNumber, Integer limit);
 
     QueryExecute<E> build();
 

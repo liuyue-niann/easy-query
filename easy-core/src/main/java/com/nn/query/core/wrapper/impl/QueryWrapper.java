@@ -37,22 +37,6 @@ public class QueryWrapper<E> implements Wrapper<E> {
         return new QueryWrapper<E>(this.baseEntity);
     }
 
-    @Override
-    public List<E> limit(Long limit) {
-        this.baseEntity.appendSql("limit %s".formatted(limit));
-        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
-    }
-
-    @Override
-    public List<E> limit(Integer limit) {
-        return limit(limit.toString());
-    }
-
-    @Override
-    public List<E> limit(String limit) {
-        return limit(Long.parseLong(limit));
-    }
-
 
     @Override
     public QueryWrapper<E> join(Class<?> clazz) {
@@ -70,8 +54,8 @@ public class QueryWrapper<E> implements Wrapper<E> {
 
     @Override
     public QueryWrapper<E> join(Class<?>... tables) {
-        //TODO 连接查询
-        return new QueryWrapper<>(this.baseEntity);
+        //TODO 连接查询待完成
+        throw new RuntimeException("待完成");
     }
 
 
@@ -302,27 +286,6 @@ public class QueryWrapper<E> implements Wrapper<E> {
         }
         this.baseEntity.appendSql("desc");
         return new QueryWrapper<>(this.baseEntity);
-    }
-
-    @Override
-    public List<E> page(Long pageNumber, Long limit) {
-        if (pageNumber <= 0) {
-            throw new QueryException("pageNumber must > 0 ！");
-        }
-        String id = this.baseEntity.getTableId();
-        order(id);
-        this.baseEntity.appendSql("offset %s limit %s".formatted(pageNumber - 1, limit));
-        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
-    }
-
-    @Override
-    public List<E> page(String pageNumber, String limit) {
-        return page(Long.parseLong(pageNumber), Long.parseLong(limit));
-    }
-
-    @Override
-    public List<E> page(Integer pageNumber, Integer limit) {
-        return page(pageNumber.toString(), limit.toString());
     }
 
 

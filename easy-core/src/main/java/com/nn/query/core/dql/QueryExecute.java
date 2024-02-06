@@ -7,6 +7,7 @@ import com.nn.query.annocation.Table;
 import com.nn.query.cache.QueryCache;
 import com.nn.query.cache.impl.QueryCacheImpl;
 import com.nn.query.core.BaseEntity;
+import com.nn.query.core.wrapper.impl.QueryWrapper;
 import com.nn.query.exception.EntityException;
 import com.nn.query.exception.QueryException;
 
@@ -154,6 +155,39 @@ public class QueryExecute<E> {
         cache.save(this.baseEntity.getSql().toString(), value);
 
     }
+
+
+    public List<E> page(Long pageNumber, Long limit) {
+        if (pageNumber <= 0) {
+            throw new QueryException("pageNumber must > 0 ！");
+        }
+        String id = this.baseEntity.getTableId();
+        this.baseEntity.appendSql("order by %s".formatted(id));
+        this.baseEntity.appendSql("offset %s limit %s".formatted(pageNumber - 1, limit));
+        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
+    }
+
+    public List<E> page(String pageNumber, String limit) {
+        return page(Long.parseLong(pageNumber), Long.parseLong(limit));
+    }
+
+    public List<E> page(Integer pageNumber, Integer limit) {
+        return page(pageNumber.toString(), limit.toString());
+    }
+
+    public List<E> limit(Long limit) {
+        this.baseEntity.appendSql("limit %s".formatted(limit));
+        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
+    }
+
+    public List<E> limit(Integer limit) {
+        return limit(limit.toString());
+    }
+
+    public List<E> limit(String limit) {
+        return limit(Long.parseLong(limit));
+    }
+
 
     /**
      * 查询多行
