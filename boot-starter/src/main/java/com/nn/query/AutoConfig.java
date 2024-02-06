@@ -1,18 +1,10 @@
 package com.nn.query;
 
 import com.nn.query.properties.DataSourceProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.io.FileUrlResource;
-import org.springframework.core.io.UrlResource;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.util.logging.Logger;
 
 /**
  * @author niann
@@ -25,7 +17,7 @@ import java.io.OutputStreamWriter;
 public class AutoConfig {
 
 
-    private final Logger logger = LoggerFactory.getLogger(AutoConfig.class);
+    private final Logger logger = Logger.getLogger("");
 
     public AutoConfig() {
         printLogo();
