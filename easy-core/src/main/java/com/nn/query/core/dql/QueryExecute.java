@@ -9,8 +9,6 @@ import com.nn.query.exception.EntityException;
 import com.nn.query.exception.QueryException;
 import com.nn.query.cache.QueryCache;
 import com.nn.query.cache.impl.QueryCacheImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -24,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author niann
@@ -32,7 +31,7 @@ import java.util.List;
  **/
 public class QueryExecute<E> {
     private final BaseEntity baseEntity;
-    private final Logger logger = LoggerFactory.getLogger(QueryExecute.class);
+    private final Logger logger = Logger.getLogger("");
 
     public QueryExecute(BaseEntity baseEntity) {
         this.baseEntity = baseEntity;

@@ -8,7 +8,6 @@
         <version>3.2.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.springframework.boot</groupId>
     <artifactId>easy-query-boot-starter</artifactId>
     <version>1.1</version>
     <name>boot-starter</name>
@@ -25,10 +24,6 @@
             <groupId>com.nn</groupId>
             <artifactId>easy-core</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
