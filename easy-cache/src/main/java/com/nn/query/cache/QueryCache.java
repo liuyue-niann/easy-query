@@ -1,7 +1,5 @@
 package com.nn.query.cache;
 
-import java.util.HashMap;
-
 /**
  * @author niann
  * @date 2024/2/4 20:34

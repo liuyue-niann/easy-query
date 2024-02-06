@@ -1,7 +1,5 @@
 package com.nn.query.annocation;
 
-import jdk.jfr.Registered;
-
 import java.lang.annotation.*;
 
 /**

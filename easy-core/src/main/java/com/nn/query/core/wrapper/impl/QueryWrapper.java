@@ -2,9 +2,9 @@ package com.nn.query.core.wrapper.impl;
 
 
 import com.nn.query.annocation.Table;
-import com.nn.query.core.wrapper.Wrapper;
 import com.nn.query.core.BaseEntity;
 import com.nn.query.core.dql.QueryExecute;
+import com.nn.query.core.wrapper.Wrapper;
 
 import java.util.Collection;
 import java.util.List;

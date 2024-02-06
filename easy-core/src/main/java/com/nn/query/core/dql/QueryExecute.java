@@ -4,11 +4,11 @@ import com.nn.query.annocation.Id;
 import com.nn.query.annocation.ManyToOne;
 import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
+import com.nn.query.cache.QueryCache;
+import com.nn.query.cache.impl.QueryCacheImpl;
 import com.nn.query.core.BaseEntity;
 import com.nn.query.exception.EntityException;
 import com.nn.query.exception.QueryException;
-import com.nn.query.cache.QueryCache;
-import com.nn.query.cache.impl.QueryCacheImpl;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
