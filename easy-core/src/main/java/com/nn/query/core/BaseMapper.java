@@ -83,7 +83,7 @@ public class BaseMapper<E> {
         return this.queryWrapper;
     }
 
-    public List<E> list() {
+    public final List<E> list() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
         QueryExecute<E> execute = new QueryExecute<>(baseEntity);
         return execute.list();
