@@ -306,9 +306,7 @@ public class QueryExecute<E> {
                 }
                 i++;
             }
-            ResultSet resultSet = statement.executeQuery();
-            logger.info("querying the database...");
-            return resultSet;
+            return statement.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
