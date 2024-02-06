@@ -96,5 +96,4 @@ public class BaseMapper<E> {
         return execute.one();
     }
 
-
 }

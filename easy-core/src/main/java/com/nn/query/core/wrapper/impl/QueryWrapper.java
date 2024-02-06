@@ -1,13 +1,19 @@
 package com.nn.query.core.wrapper.impl;
 
 
+import com.nn.query.annocation.Id;
+import com.nn.query.annocation.ManyToOne;
+import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
 import com.nn.query.core.BaseEntity;
 import com.nn.query.core.dql.QueryExecute;
 import com.nn.query.core.wrapper.Wrapper;
+import com.nn.query.exception.QueryException;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author niann
@@ -32,10 +38,21 @@ public class QueryWrapper<E> implements Wrapper<E> {
     }
 
     @Override
-    public QueryWrapper<E> limit(Object limit) {
+    public List<E> limit(Long limit) {
         this.baseEntity.appendSql("limit %s".formatted(limit));
-        return new QueryWrapper<>(this.baseEntity);
+        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
     }
+
+    @Override
+    public List<E> limit(Integer limit) {
+        return limit(limit.toString());
+    }
+
+    @Override
+    public List<E> limit(String limit) {
+        return limit(Long.parseLong(limit));
+    }
+
 
     @Override
     public QueryWrapper<E> join(Class<?> clazz) {
@@ -50,6 +67,13 @@ public class QueryWrapper<E> implements Wrapper<E> {
         this.baseEntity.appendSql("join %s ".formatted(tableName));
         return new QueryWrapper<>(this.baseEntity);
     }
+
+    @Override
+    public QueryWrapper<E> join(Class<?>... tables) {
+        //TODO 连接查询
+        return new QueryWrapper<>(this.baseEntity);
+    }
+
 
     @Override
     public QueryWrapper<E> eq(String field, Object val) {
@@ -278,6 +302,27 @@ public class QueryWrapper<E> implements Wrapper<E> {
         }
         this.baseEntity.appendSql("desc");
         return new QueryWrapper<>(this.baseEntity);
+    }
+
+    @Override
+    public List<E> page(Long pageNumber, Long limit) {
+        if (pageNumber <= 0) {
+            throw new QueryException("pageNumber must > 0 ！");
+        }
+        String id = this.baseEntity.getTableId();
+        order(id);
+        this.baseEntity.appendSql("offset %s limit %s".formatted(pageNumber - 1, limit));
+        return (List<E>) new QueryWrapper<>(this.baseEntity).build().list();
+    }
+
+    @Override
+    public List<E> page(String pageNumber, String limit) {
+        return page(Long.parseLong(pageNumber), Long.parseLong(limit));
+    }
+
+    @Override
+    public List<E> page(Integer pageNumber, Integer limit) {
+        return page(pageNumber.toString(), limit.toString());
     }
 
 

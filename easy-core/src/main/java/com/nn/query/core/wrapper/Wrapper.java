@@ -4,6 +4,7 @@ import com.nn.query.core.dql.QueryExecute;
 import com.nn.query.core.wrapper.impl.QueryWrapper;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author niann
@@ -13,9 +14,15 @@ import java.util.Collection;
 public interface Wrapper<E> {
     QueryWrapper<E> where();
 
-    QueryWrapper<E> limit(Object limit);
+    List<E> limit(Long limit);
 
-    QueryWrapper<E> join(Class<?> clazz);
+    List<E> limit(Integer limit);
+
+    List<E> limit(String limit);
+
+    QueryWrapper<E> join(Class<?> table);
+
+    QueryWrapper<E> join(Class<?>... tables);
 
     QueryWrapper<E> eq(String field, Object val);
 
@@ -72,6 +79,13 @@ public interface Wrapper<E> {
 
     QueryWrapper<E> orderDesc(Object... field);
 
+    List<E> page(Long pageNumber, Long limit);
+
+    List<E> page(String pageNumber, String limit);
+
+    List<E> page(Integer pageNumber, Integer limit);
+
     QueryExecute<E> build();
+
 
 }
