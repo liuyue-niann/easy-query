@@ -2,6 +2,7 @@ package com.nn.query;
 
 import com.nn.query.properties.DataSourceProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import java.util.logging.Logger;
