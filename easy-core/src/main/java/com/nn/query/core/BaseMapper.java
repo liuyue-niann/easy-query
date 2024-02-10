@@ -4,6 +4,8 @@ import com.nn.query.annocation.Id;
 import com.nn.query.annocation.Table;
 import com.nn.query.core.dql.QueryExecute;
 import com.nn.query.core.wrapper.impl.QueryWrapper;
+import jakarta.annotation.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -62,34 +64,33 @@ public class BaseMapper<E> {
         }
     }
 
-
-    public final QueryWrapper<E> select() {
+    public QueryWrapper<E> select() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
         return this.queryWrapper;
     }
 
-    public final QueryWrapper<E> update() {
+    public QueryWrapper<E> update() {
         this.baseEntity.setSql(new StringBuffer("update..."));
         return this.queryWrapper;
     }
 
-    public final QueryWrapper<E> insert() throws SQLException {
+    public QueryWrapper<E> insert() throws SQLException {
         this.baseEntity.setSql(new StringBuffer("insert..."));
         return this.queryWrapper;
     }
 
-    public final QueryWrapper<E> delete() {
+    public QueryWrapper<E> delete() {
         this.baseEntity.setSql(new StringBuffer("delete..."));
         return this.queryWrapper;
     }
 
-    public final List<E> list() {
+    public List<E> list() {
         this.baseEntity.setSql(new StringBuffer("select * from %s".formatted(this.baseEntity.getTableName())));
         QueryExecute<E> execute = new QueryExecute<>(baseEntity);
         return execute.list();
     }
 
-    public final E byId(Object id) {
+    public E byId(Object id) {
         StringBuffer sql = new StringBuffer("select * from %s where %s = %s ".formatted(this.baseEntity.getTableName(), this.baseEntity.getTableId(), id));
         this.baseEntity.setSql(sql);
         QueryExecute<E> execute = new QueryExecute<>(baseEntity);
