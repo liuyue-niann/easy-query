@@ -6,7 +6,6 @@ import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
 import com.nn.query.core.query.QueryExecute;
 import com.nn.query.core.wrapper.impl.QueryWrapper;
-import com.nn.query.exception.QueryException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -98,21 +97,6 @@ public class BaseMapper<E> {
     }
 
 
-    private Object[] getTableFiled() {
-        Class<?> table = this.baseEntity.getTable();
-        Field[] fields = table.getDeclaredFields();
-        List<String> arr = new ArrayList<>();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            if (field.getAnnotation(Id.class) != null && field.getAnnotation(Id.class).auto() ||
-                    field.getAnnotation(ManyToOne.class) != null ||
-                    field.getAnnotation(OneToMany.class) != null) continue;
-            arr.add(field.getName());
-        }
-        return new List[]{arr};
-    }
-
-
     /**
      * 根据实体获取数据库字段
      *
@@ -144,8 +128,14 @@ public class BaseMapper<E> {
     }
 
     public QueryWrapper<E> delete() {
-        this.baseEntity.setSql(new StringBuffer("delete..."));
+        this.baseEntity.setSql("delete from %s".formatted(this.baseEntity.getTableName()));
         return this.queryWrapper;
+    }
+
+    public int deleteById(Object... ids) {
+        this.baseEntity.setSql("delete from %s".formatted(this.baseEntity.getTableName()));
+        this.queryWrapper.where().in(this.baseEntity.getTableId(), ids);
+        return this.queryWrapper.build().del();
     }
 
     public List<E> list() {

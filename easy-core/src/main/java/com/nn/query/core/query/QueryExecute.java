@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 import java.util.logging.Logger;
@@ -358,6 +359,18 @@ public class QueryExecute<E> {
         logger.info("==> sql: %s".formatted(sql));
         logger.info("==> args: %s".formatted(argsLog));
         int i = jdbcTemplate.update(sql, value);
+        QueryCache cache = new QueryCacheImpl();
+        cache.clear();
+        return i;
+    }
+
+    public int del() {
+        String sql = this.baseEntity.getSql().toString();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(new DataSourceConfig().getDataSource());
+        Object[] args = this.baseEntity.getFieldValue().toArray();
+        logger.info("==> sql: %s".formatted(sql));
+        logger.info("==> args: " + Arrays.toString(args));
+        int i = jdbcTemplate.update(sql, args);
         QueryCache cache = new QueryCacheImpl();
         cache.clear();
         return i;
