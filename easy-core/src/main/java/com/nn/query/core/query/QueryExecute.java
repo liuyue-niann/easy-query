@@ -1,4 +1,4 @@
-package com.nn.query.core.dql;
+package com.nn.query.core.query;
 
 import com.nn.query.annocation.Id;
 import com.nn.query.annocation.ManyToOne;
@@ -6,9 +6,11 @@ import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
 import com.nn.query.cache.QueryCache;
 import com.nn.query.cache.impl.QueryCacheImpl;
+import com.nn.query.config.DataSourceConfig;
 import com.nn.query.core.BaseEntity;
 import com.nn.query.exception.EntityException;
 import com.nn.query.exception.QueryException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -33,10 +35,10 @@ public class QueryExecute<E> {
     private final BaseEntity baseEntity;
     private final Logger logger = Logger.getLogger("");
 
+
     public QueryExecute(BaseEntity baseEntity) {
         this.baseEntity = baseEntity;
     }
-
 
     /**
      * 一对多时进行查询
@@ -154,7 +156,6 @@ public class QueryExecute<E> {
         cache.save(this.baseEntity.getSql().toString(), value);
     }
 
-
     public List<E> page(Long pageNumber, Long limit) {
         if (pageNumber <= 0) {
             throw new QueryException("pageNumber must > 0 ！");
@@ -185,7 +186,6 @@ public class QueryExecute<E> {
     public List<E> limit(String limit) {
         return limit(Long.parseLong(limit));
     }
-
 
     /**
      * 查询多行
@@ -300,7 +300,6 @@ public class QueryExecute<E> {
         return r;
     }
 
-
     /**
      * 返回结果集
      *
@@ -341,5 +340,19 @@ public class QueryExecute<E> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void insert() {
+        String sql = this.baseEntity.getSql().toString();
+        Object[] value = this.baseEntity.getFieldValue().toArray();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(new DataSourceConfig().getDataSource());
+        StringBuilder argsLog = new StringBuilder();
+        for (Object o : value) {
+            argsLog.append(o).append(",");
+        }
+        argsLog.delete(argsLog.length() - 1, argsLog.length());
+        logger.info("==> sql: %s".formatted(sql));
+        logger.info("==> args: %s".formatted(argsLog));
+        jdbcTemplate.update(sql, value);
     }
 }

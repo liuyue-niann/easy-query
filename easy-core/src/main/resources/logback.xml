@@ -5,6 +5,8 @@
         </encoder>
     </appender>
 
+    <!-- 禁用 HikariCP 的日志 -->
+    <logger name="com.zaxxer.hikari" level="ERROR"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>

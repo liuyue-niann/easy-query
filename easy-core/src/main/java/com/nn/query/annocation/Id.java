@@ -13,4 +13,11 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 public @interface Id {
     String value() default "";
+
+    /**
+     * 自增 true
+     *
+     * @return
+     */
+    boolean auto() default true;
 }

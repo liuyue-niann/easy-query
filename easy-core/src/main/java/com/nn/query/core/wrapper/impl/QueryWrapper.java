@@ -6,7 +6,7 @@ import com.nn.query.annocation.ManyToOne;
 import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
 import com.nn.query.core.BaseEntity;
-import com.nn.query.core.dql.QueryExecute;
+import com.nn.query.core.query.QueryExecute;
 import com.nn.query.core.wrapper.Wrapper;
 import com.nn.query.exception.QueryException;
 

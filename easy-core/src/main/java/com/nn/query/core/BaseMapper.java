@@ -1,16 +1,18 @@
 package com.nn.query.core;
 
 import com.nn.query.annocation.Id;
+import com.nn.query.annocation.ManyToOne;
+import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
-import com.nn.query.core.dql.QueryExecute;
+import com.nn.query.core.query.QueryExecute;
 import com.nn.query.core.wrapper.impl.QueryWrapper;
-import jakarta.annotation.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class BaseMapper<E> {
@@ -18,6 +20,7 @@ public class BaseMapper<E> {
     private final BaseEntity baseEntity;
 
     private final QueryWrapper<E> queryWrapper;
+
 
     public BaseMapper() {
         this.baseEntity = new BaseEntity();
@@ -74,9 +77,52 @@ public class BaseMapper<E> {
         return this.queryWrapper;
     }
 
-    public QueryWrapper<E> insert() throws SQLException {
-        this.baseEntity.setSql(new StringBuffer("insert..."));
-        return this.queryWrapper;
+    
+    public void insert(E e) {
+        StringBuilder sql = new StringBuilder("insert into %s (".formatted(this.baseEntity.getTableName()));
+        HashMap<String, Object> dbField = getDbField(e);
+        for (String filed : dbField.keySet()) {
+            sql.append(filed).append(",");
+        }
+        sql.delete(sql.length() - 1, sql.length()).append(") ").append("values (");
+        for (Object value : dbField.values()) {
+            sql.append("?").append(",");
+            this.baseEntity.getFieldValue().add(value);
+        }
+        sql.delete(sql.length() - 1, sql.length()).append(") ");
+        this.baseEntity.setSql(sql.toString());
+        queryWrapper.build().insert();
+    }
+
+
+    /**
+     * 根据实体获取数据库字段
+     *
+     * @return
+     */
+    private HashMap<String, Object> getDbField(E table) {
+        HashMap<String, Object> fieldVar = new HashMap<>();
+        Field[] fields = table.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            if (field.getAnnotation(Id.class) != null && field.getAnnotation(Id.class).auto() ||
+                    field.getAnnotation(ManyToOne.class) != null ||
+                    field.getAnnotation(OneToMany.class) != null) continue;
+            try {
+                String name;
+                if (field.getAnnotation(com.nn.query.annocation.Field.class) == null) {
+                    name = field.getName();
+                } else {
+                    name = field.getAnnotation(com.nn.query.annocation.Field.class).value().isBlank() ?
+                            field.getName() : field.getAnnotation(com.nn.query.annocation.Field.class).value();
+                }
+                Object val = field.get(table);
+                fieldVar.put(name, val);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return fieldVar;
     }
 
     public QueryWrapper<E> delete() {
