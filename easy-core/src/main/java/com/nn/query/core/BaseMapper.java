@@ -6,14 +6,12 @@ import com.nn.query.annocation.OneToMany;
 import com.nn.query.annocation.Table;
 import com.nn.query.core.query.QueryExecute;
 import com.nn.query.core.wrapper.impl.QueryWrapper;
+import com.nn.query.exception.QueryException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class BaseMapper<E> {
 
@@ -77,8 +75,8 @@ public class BaseMapper<E> {
         return this.queryWrapper;
     }
 
-    
-    public void insert(E e) {
+
+    public int insert(E e) {
         StringBuilder sql = new StringBuilder("insert into %s (".formatted(this.baseEntity.getTableName()));
         HashMap<String, Object> dbField = getDbField(e);
         for (String filed : dbField.keySet()) {
@@ -86,12 +84,32 @@ public class BaseMapper<E> {
         }
         sql.delete(sql.length() - 1, sql.length()).append(") ").append("values (");
         for (Object value : dbField.values()) {
-            sql.append("?").append(",");
-            this.baseEntity.getFieldValue().add(value);
+            if (value == null) {
+                sql.append("null").append(",");
+            } else {
+                sql.append("?").append(",");
+                this.baseEntity.getFieldValue().add(value);
+            }
+
         }
         sql.delete(sql.length() - 1, sql.length()).append(") ");
         this.baseEntity.setSql(sql.toString());
-        queryWrapper.build().insert();
+        return queryWrapper.build().insert();
+    }
+
+
+    private Object[] getTableFiled() {
+        Class<?> table = this.baseEntity.getTable();
+        Field[] fields = table.getDeclaredFields();
+        List<String> arr = new ArrayList<>();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            if (field.getAnnotation(Id.class) != null && field.getAnnotation(Id.class).auto() ||
+                    field.getAnnotation(ManyToOne.class) != null ||
+                    field.getAnnotation(OneToMany.class) != null) continue;
+            arr.add(field.getName());
+        }
+        return new List[]{arr};
     }
 
 

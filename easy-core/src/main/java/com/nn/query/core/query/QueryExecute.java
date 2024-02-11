@@ -342,7 +342,7 @@ public class QueryExecute<E> {
         }
     }
 
-    public void insert() {
+    public int insert() {
         String sql = this.baseEntity.getSql().toString();
         Object[] value = this.baseEntity.getFieldValue().toArray();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(new DataSourceConfig().getDataSource());
@@ -350,9 +350,16 @@ public class QueryExecute<E> {
         for (Object o : value) {
             argsLog.append(o).append(",");
         }
-        argsLog.delete(argsLog.length() - 1, argsLog.length());
+        if (!argsLog.isEmpty()) {
+            argsLog.delete(argsLog.length() - 1, argsLog.length());
+        } else {
+            argsLog.append("null");
+        }
         logger.info("==> sql: %s".formatted(sql));
         logger.info("==> args: %s".formatted(argsLog));
-        jdbcTemplate.update(sql, value);
+        int i = jdbcTemplate.update(sql, value);
+        QueryCache cache = new QueryCacheImpl();
+        cache.clear();
+        return i;
     }
 }
